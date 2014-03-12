@@ -32,8 +32,8 @@ description:         Very minimal library providing tools for serializing and
 
 license:             MIT
 license-file:        LICENSE
-author:              Justin Le
-maintainer:          justin@jle.im
+author:              Justin Le <justin@jle.im>
+maintainer:          Justin Le <justin@jle.im>
 copyright:           Copyright (c) Justin Le 2014
 category:            Data
 build-type:          Simple
