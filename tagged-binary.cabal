@@ -4,7 +4,7 @@ synopsis:            Provides tools for serializing data tagged with type
                      information.
 description:         Very minimal library providing tools for serializing and
                      decoding data into 'ByteString' tagged with information
-                     about its type, inspried by Cloud Haskell and
+                     about its type, inspired by Cloud Haskell and
                      distributed-process.
                      .
                      Intended for use by libraries and frameworks in
