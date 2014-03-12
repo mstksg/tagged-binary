@@ -1,7 +1,7 @@
 tagged-binary
 =============
 
-Very minimal library providing tools for serializing and decoding data into
+Very minimal (Haskell) library providing tools for serializing and decoding data into
 `ByteString` tagged with information about its type, inspired by Cloud Haskell
 and distributed-process.
 
