@@ -24,3 +24,7 @@ Quick example
     > decodeTagged x :: Maybe Int
     Just 1
 
+Copyright
+---------
+
+Copyright (c) 2014 Justin Le
