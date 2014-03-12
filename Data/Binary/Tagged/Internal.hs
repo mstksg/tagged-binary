@@ -49,8 +49,12 @@ data Tagged a = Tagged !TagFingerprint a
 -- Ideally, this would be 'Data.Typeable.Internal''s own 'Fingerprint'
 -- types; however, for some reason, the fingerprints for the same data type
 -- from the same modules differ between different GHC backends.  So for
--- now, it is just a ByteString representation of the name of the type.
--- This is literally a bad idea...but works for now.
+-- now, it is just a 'ByteString' representation of the name of the type.
+-- This is literally a bad idea, and so two types with the same name but
+-- from different modules will share a non-unique 'TagFingerprint'.
+-- Hopefully in the future when I find out a way to fix this or the GHC
+-- backend maintainers find a way to provide consistent type fingerprints,
+-- this will be fixed.
 --
 -- This type is mostly used for the ability to categorized Tagged items
 -- by their type.

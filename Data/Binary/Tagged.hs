@@ -35,7 +35,13 @@
 -- It might be significant to note that the current 'TagFingerprint'
 -- implementation is a little shaky; it's a bit tricky getting all GHC
 -- platforms to agree on a meaningful 'TypeRep' serialization, and we will
--- have a better implementation eventually.
+-- have a better implementation eventually.  For now, it just uses string
+-- name of the type as an identifier.  So for now, don't encode/decode
+-- things with the same type name but exist in different modules
+-- ('Data.Text.Text' or 'Data.Text.Lazy.Text', for example) through the
+-- same polymorphic channel! This is a bit limiting, admittedly, but until
+-- I or the backend maintainers find out a way to ensure that type
+-- fingerprints match up per backend, be aware of this limitation.
 --
 
 module Data.Binary.Tagged (
@@ -55,6 +61,10 @@ import Data.ByteString.Lazy
 import Data.Typeable.Internal
 
 -- | Encode data into a 'ByteString' with its type data tagged.
+--
+-- Remember that for now, types are distinguished by their string names, so
+-- two types of the same name in different modules will not have unique
+-- tags.
 encodeTagged :: (Binary a, Typeable a) => a -> ByteString
 encodeTagged = encode . tag
 
