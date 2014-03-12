@@ -1,6 +1,6 @@
 -- |
 -- Module      : Data.Binary.Tagged
--- Copyright   : (c) Justin Le 2014,
+-- Copyright   : (c) Justin Le 2014
 -- License     : MIT
 --
 -- Maintainer  : justin@jle.im

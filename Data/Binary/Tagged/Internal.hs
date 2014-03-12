@@ -2,8 +2,8 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 
 -- |
--- Module      : Data.Binary.Tagged
--- Copyright   : (c) Justin Le 2014,
+-- Module      : Data.Binary.Tagged.Internal
+-- Copyright   : (c) Justin Le 2014
 -- License     : MIT
 --
 -- Maintainer  : justin@jle.im
@@ -58,6 +58,11 @@ data Tagged a = Tagged !TagFingerprint a
 --
 -- This type is mostly used for the ability to categorized Tagged items
 -- by their type.
+--
+-- There is a 'Default' instance, because the constructor is hidden.  For
+-- now, it is just an empty 'ByteString', but when fingerprinting works for
+-- real, think of it as a way to generate a fingerprint that will most
+-- likely not be matched by any type, in case the need ever comes up.
 newtype TagFingerprint = TagFP ByteString
                          deriving (Show, Typeable, Generic, Eq, Ord)
 
