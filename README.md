@@ -1,3 +1,6 @@
+tagged-binary
+=============
+
 Very minimal library providing tools for serializing and decoding data into
 `ByteString` tagged with information about its type, inspired by Cloud Haskell
 and distributed-process.
@@ -12,7 +15,8 @@ ignore or queue incoming messages depending on their types.
 For basic encoding and decoding, only `Data.Binary.Tagged` should be
 necessary.  `Data.Binary.Tagged.Internal` is exported in case you need it.
 
-Quick example:
+Quick example
+-------------
 
     > let x = encodeTagged (1 :: Int)
     > decodeTagged x :: Maybe Bool
