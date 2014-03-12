@@ -64,10 +64,10 @@ encodeTagged = encode . tag
 --
 --  * If the data is not decoded, @Nothing@ is returned.
 --
---  * If succesfully decoded data is tagged with a 'Fingerprint' not
+--  * If successfully decoded data is tagged with a 'Fingerprint' not
 --  matching the desired type, @Nothing@ is also returned.
 --
---  * If the data is succesfully decoded *and* the tagged 'Fingerprint'
+--  * If the data is successfully decoded *and* the tagged 'Fingerprint'
 --  matches the desired type, @Just x@ is returned, where @x@ is the
 --  originally encoded data (with its tag stripped).
 decodeTagged :: (Binary a, Typeable a) => ByteString -> Maybe a

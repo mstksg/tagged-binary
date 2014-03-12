@@ -35,7 +35,7 @@ license-file:        LICENSE
 author:              Justin Le <justin@jle.im>
 maintainer:          Justin Le <justin@jle.im>
 copyright:           Copyright (c) Justin Le 2014
-category:            Data
+category:            Data, Serialization 
 build-type:          Simple
 -- extra-source-files:  
 cabal-version:       >=1.10
