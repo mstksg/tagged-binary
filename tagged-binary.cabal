@@ -37,7 +37,7 @@ maintainer:          Justin Le <justin@jle.im>
 copyright:           Copyright (c) Justin Le 2014
 category:            Data, Serialization 
 build-type:          Simple
--- extra-source-files:  
+extra-source-files:  changelog.md
 cabal-version:       >=1.10
 
 source-repository head
