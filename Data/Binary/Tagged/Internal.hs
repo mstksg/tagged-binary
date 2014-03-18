@@ -1,5 +1,6 @@
 {-# LANGUAGE DeriveGeneric      #-}
 {-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE OverloadedStrings  #-}
 
 -- |
 -- Module      : Data.Binary.Tagged.Internal
@@ -7,7 +8,7 @@
 -- License     : MIT
 --
 -- Maintainer  : justin@jle.im
--- Stability   : stable
+-- Stability   : unstable
 -- Portability : portable
 --
 -- Internals for the library, exported in case you should need it.
@@ -26,24 +27,41 @@ module Data.Binary.Tagged.Internal (
     -- * 'TagFingerprint' utilities
   , typeFingerprint -- :: Typeable a => a -> TagFingerprint
   , tagFingerprint  -- :: Tagged a -> TagFingerprint
+  , bsFingerprint   -- :: ByteString -> Maybe TagFingerprint
   ) where
 
+import Control.Applicative        ((<$>),(<*>))
+import Control.Monad              (guard, forM_)
 import Data.Binary
-import Data.Default
-import Data.ByteString.Lazy
 import Data.ByteString.Lazy.Char8 as LC
-import Data.Maybe             (isJust)
+import Data.Binary.Get
+import Data.Default
+import Data.Digest.Pure.MD5
+import Data.Maybe                 (isJust)
 import Data.Typeable.Internal
 import GHC.Generics
 
 
 -- | A data type tupling together data with a 'TagFingerprint',
--- representing data tagged with its type.  You really should never have to
--- use this type; it's best to interface directly with data using
--- 'encodeTagged', 'decodeTagged', etc.  Use 'tag' to tag data and
--- 'extractTagged' to extract data from valid tagged data.
+-- representing data tagged with its type.
+--
+-- It's best to interface directly with data using 'encodeTagged',
+-- 'decodeTagged', etc, using 'tag' to tag data and 'extractTagged' to
+-- extract data from valid tagged data.  This type is exported mostly when
+-- you want to specifically decode a 'ByteString' into tagged data, and
+-- manually extract it yourself.  If you are writing a framework, it is
+-- preferred to handle this for the end user.
 data Tagged a = Tagged !TagFingerprint a
                 deriving (Show, Eq, Generic, Typeable)
+
+instance Binary a => Binary (Tagged a) where
+    put (Tagged fp x) = do
+      put TagLead
+      put fp
+      put x
+    get = do
+      _ <- get :: Get TagLead
+      Tagged <$> get <*> get
 
 -- | A data type representing a fingerprint for a 'Typeable' type.
 -- Ideally, this would be 'Data.Typeable.Internal''s own 'Fingerprint'
@@ -63,14 +81,27 @@ data Tagged a = Tagged !TagFingerprint a
 -- now, it is just an empty 'ByteString', but when fingerprinting works for
 -- real, think of it as a way to generate a fingerprint that will most
 -- likely not be matched by any type, in case the need ever comes up.
-newtype TagFingerprint = TagFP ByteString
+newtype TagFingerprint = TagFP MD5Digest
                          deriving (Show, Typeable, Generic, Eq, Ord)
 
-instance Binary a => Binary (Tagged a)
 instance Binary TagFingerprint
 
+-- | 'MD5Digest' of an empty string: d41d8cd98f00b204e9800998ecf8427e
 instance Default TagFingerprint where
-  def = TagFP empty
+  def = TagFP (md5 "")
+
+-- | Put at the start of a 'Tagged' to signify that it is a 'Tagged'.
+data TagLead = TagLead
+
+instance Binary TagLead where
+    put _ = mapM_ put leadingBytes
+    get = do
+      forM_ leadingBytes $ \b ->
+        guard . (== b) =<< get
+      return TagLead
+
+leadingBytes :: [Word8]
+leadingBytes = [0xfe,0xfe]
 
 -- | Wrap data inside a 'Tagged' tuple.
 tag :: Typeable a => a -> Tagged a
@@ -84,7 +115,7 @@ tag x = Tagged (typeFingerprint x) x
 -- > typeFingerprint (undefined :: Int)
 --
 typeFingerprint :: Typeable a => a -> TagFingerprint
-typeFingerprint = TagFP . LC.pack . show . typeOf
+typeFingerprint = TagFP . md5 . LC.pack . show . typeOf
 
 -- | Extract data out of a 'Tagged', but only the type of the data matches
 -- the type represented by the fingerprint.  It is polymorphic on its
@@ -105,4 +136,18 @@ tagMatched = isJust . getTagged
 -- of a desired typed, 'getTagged' and 'tagMatched' might be more useful.
 tagFingerprint :: Tagged a -> TagFingerprint
 tagFingerprint (Tagged fp _) = fp
+
+-- | With a 'ByteString', expecting tagged data, returns the 'Fingerprint'
+-- that the data is tagged with.  Returns @Nothing@ if the data is not
+-- decodable as tagged data.  Might accidentally decode untagged data
+-- though!
+bsFingerprint :: ByteString -> Maybe TagFingerprint
+bsFingerprint bs = case getRes of
+                     Left _         -> Nothing
+                     Right (_,_,fp) -> Just fp
+
+  where
+    getRes  = flip runGetOrFail bs $ do
+                _ <- get :: Get TagLead
+                get
 

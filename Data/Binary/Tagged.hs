@@ -4,7 +4,7 @@
 -- License     : MIT
 --
 -- Maintainer  : justin@jle.im
--- Stability   : stable
+-- Stability   : unstable
 -- Portability : portable
 --
 -- Provides tools for serializing and decoding data into 'ByteString'
@@ -28,6 +28,8 @@
 -- > > decodeTagged x :: Maybe Int
 -- > Just 1
 --
+-- The interface is very similar to that of 'Data.Dynamic'.
+--
 -- Also provided here is the internal 'TagFingerprint' data type, so that
 -- you can categorize, sort, and queue 'Tagged' or 'ByteString' based on
 -- the types they represent.
@@ -35,8 +37,8 @@
 -- It might be significant to note that the current 'TagFingerprint'
 -- implementation is a little shaky; it's a bit tricky getting all GHC
 -- platforms to agree on a meaningful 'TypeRep' serialization, and we will
--- have a better implementation eventually.  For now, it just uses string
--- name of the type as an identifier.  So for now, don't encode/decode
+-- have a better implementation eventually.  For now, it just uses an MD5
+-- hash of the string name of the type.  So for now, don't encode/decode
 -- things with the same type name but exist in different modules
 -- ('Data.Text.Text' or 'Data.Text.Lazy.Text', for example) through the
 -- same polymorphic channel! This is a bit limiting, admittedly, but until
@@ -49,7 +51,8 @@ module Data.Binary.Tagged (
     encodeTagged    -- :: (Binary a, Typeable a) => a -> ByteString
   , decodeTagged    -- :: (Binary a, Typeable a) => ByteString -> Maybe a
   , bsFingerprint   -- :: ByteString -> Maybe TagFingerprint
-    -- * Fingerprint utilities
+    -- * Manipulating
+  , Tagged          -- abstract, instances: Show, Eq, Binary, Typeable, Generic
   , TagFingerprint  -- abstract, instances: Show, Eq, Ord, Binary, Typeable, Generic, Default
   , typeFingerprint -- :: Typeable a => a -> TagFingerprint
   ) where
@@ -82,11 +85,4 @@ encodeTagged = encode . tag
 --  originally encoded data (with its tag stripped).
 decodeTagged :: (Binary a, Typeable a) => ByteString -> Maybe a
 decodeTagged bs = teaspoon =<< getTagged (decode bs)
-
--- | With a 'ByteString', expecting tagged data, returns the 'Fingerprint'
--- that the data is tagged with.  Returns @Nothing@ if the data is not
--- decodable as tagged data.  Might accidentally decode untagged data
--- though!
-bsFingerprint :: ByteString -> Maybe TagFingerprint
-bsFingerprint bs = teaspoon $ tagFingerprint (decode bs :: Tagged ())
 
