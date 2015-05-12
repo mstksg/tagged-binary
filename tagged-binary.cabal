@@ -34,7 +34,7 @@ license:             MIT
 license-file:        LICENSE
 author:              Justin Le <justin@jle.im>
 maintainer:          Justin Le <justin@jle.im>
-copyright:           Copyright (c) Justin Le 2014
+copyright:           Copyright (c) Justin Le 2015
 category:            Data, Serialization 
 build-type:          Simple
 extra-source-files:  CHANGELOG.md

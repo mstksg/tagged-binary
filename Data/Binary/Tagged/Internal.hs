@@ -4,7 +4,7 @@
 
 -- |
 -- Module      : Data.Binary.Tagged.Internal
--- Copyright   : (c) Justin Le 2014
+-- Copyright   : (c) Justin Le 2015
 -- License     : MIT
 --
 -- Maintainer  : justin@jle.im
@@ -13,7 +13,7 @@
 --
 -- Internals for the library, exported in case you should need it.
 -- Usually, the parts you would need should be re-exported in
--- 'Data.Binary.Tagged'.
+-- "Data.Binary.Tagged".
 --
 
 module Data.Binary.Tagged.Internal (

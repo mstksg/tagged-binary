@@ -1,6 +1,6 @@
 -- |
 -- Module      : Data.Binary.Tagged
--- Copyright   : (c) Justin Le 2014
+-- Copyright   : (c) Justin Le 2015
 -- License     : MIT
 --
 -- Maintainer  : justin@jle.im
@@ -28,7 +28,7 @@
 -- > > decodeTagged x :: Maybe Int
 -- > Just 1
 --
--- The interface is very similar to that of 'Data.Dynamic'.
+-- The interface is very similar to that of "Data.Dynamic".
 --
 -- Also provided here is the internal 'TagFingerprint' data type, so that
 -- you can categorize, sort, and queue 'Tagged' or 'ByteString' based on
@@ -40,7 +40,7 @@
 -- have a better implementation eventually.  For now, it just uses an MD5
 -- hash of the string name of the type.  So for now, don't encode/decode
 -- things with the same type name but exist in different modules
--- ('Data.Text.Text' or 'Data.Text.Lazy.Text', for example) through the
+-- ("Data.Text.Text" or "Data.Text.Lazy.Text", for example) through the
 -- same polymorphic channel! This is a bit limiting, admittedly, but until
 -- I or the backend maintainers find out a way to ensure that type
 -- fingerprints match up per backend, be aware of this limitation.

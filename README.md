@@ -27,4 +27,4 @@ Quick example
 Copyright
 ---------
 
-Copyright (c) 2014 Justin Le
+Copyright (c) 2015 Justin Le
