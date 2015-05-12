@@ -1,5 +1,5 @@
 name:                tagged-binary
-version:             0.1.2.0
+version:             0.2.0.0
 synopsis:            Provides tools for serializing data tagged with type
                      information.
 description:         Very minimal library providing tools for serializing and
@@ -37,7 +37,8 @@ maintainer:          Justin Le <justin@jle.im>
 copyright:           Copyright (c) Justin Le 2014
 category:            Data, Serialization 
 build-type:          Simple
-extra-source-files:  changelog.md
+extra-source-files:  CHANGELOG.md
+                   , README.md
 cabal-version:       >=1.10
 
 source-repository head
