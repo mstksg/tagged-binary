@@ -79,7 +79,8 @@ instance Binary a => Binary (Tagged a) where
 --
 -- 'emptyTagFP' gives a 'TagFingerprint' that will most likely never be
 -- matched by any actual tag from a real type, so can be used as a test if
--- needed.
+-- needed.  This replaces functionality that used to come from the
+-- 'Default' instance.
 newtype TagFingerprint = TagFP MD5Digest
                          deriving (Show, Typeable, Generic, Eq, Ord)
 
