@@ -28,14 +28,14 @@ module Data.Binary.Tagged.Internal (
   , typeFingerprint -- :: Typeable a => a -> TagFingerprint
   , tagFingerprint  -- :: Tagged a -> TagFingerprint
   , bsFingerprint   -- :: ByteString -> Maybe TagFingerprint
+  , emptyTagFP      -- :: TagFingerprint
   ) where
 
 import Control.Applicative        ((<$>),(<*>))
 import Control.Monad              (guard, forM_)
 import Data.Binary
-import Data.ByteString.Lazy.Char8 as LC
 import Data.Binary.Get
-import Data.Default
+import Data.ByteString.Lazy.Char8 as LC
 import Data.Digest.Pure.MD5
 import Data.Maybe                 (isJust)
 import Data.Typeable.Internal
@@ -51,7 +51,7 @@ import GHC.Generics
 -- you want to specifically decode a 'ByteString' into tagged data, and
 -- manually extract it yourself.  If you are writing a framework, it is
 -- preferred to handle this for the end user.
-data Tagged a = Tagged !TagFingerprint a
+data Tagged a = Tagged !TagFingerprint !a
                 deriving (Show, Eq, Generic, Typeable)
 
 instance Binary a => Binary (Tagged a) where
@@ -77,18 +77,18 @@ instance Binary a => Binary (Tagged a) where
 -- This type is mostly used for the ability to categorized Tagged items
 -- by their type.
 --
--- There is a 'Default' instance, because the constructor is hidden.  For
--- now, it is just an empty 'ByteString', but when fingerprinting works for
--- real, think of it as a way to generate a fingerprint that will most
--- likely not be matched by any type, in case the need ever comes up.
+-- 'emptyTagFP' gives a 'TagFingerprint' that will most likely never be
+-- matched by any actual tag from a real type, so can be used as a test if
+-- needed.
 newtype TagFingerprint = TagFP MD5Digest
                          deriving (Show, Typeable, Generic, Eq, Ord)
 
 instance Binary TagFingerprint
 
--- | 'MD5Digest' of an empty string: d41d8cd98f00b204e9800998ecf8427e
-instance Default TagFingerprint where
-  def = TagFP (md5 "")
+-- | 'TagFingerprint' that is meant to never be matched by any actual
+-- normal type's 'TagFingerprint'.
+emptyTagFP :: TagFingerprint
+emptyTagFP = TagFP (md5 "")
 
 -- | Put at the start of a 'Tagged' to signify that it is a 'Tagged'.
 data TagLead = TagLead

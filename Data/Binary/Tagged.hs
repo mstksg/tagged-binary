@@ -57,7 +57,6 @@ module Data.Binary.Tagged (
   , typeFingerprint -- :: Typeable a => a -> TagFingerprint
   ) where
 
-import Control.Spoon                 (teaspoon)
 import Data.Binary
 import Data.Binary.Tagged.Internal
 import Data.ByteString.Lazy
@@ -84,5 +83,6 @@ encodeTagged = encode . tag
 --  matches the desired type, @Just x@ is returned, where @x@ is the
 --  originally encoded data (with its tag stripped).
 decodeTagged :: (Binary a, Typeable a) => ByteString -> Maybe a
-decodeTagged bs = teaspoon =<< getTagged (decode bs)
-
+decodeTagged bs = case decodeOrFail bs of
+                      Left _        -> Nothing
+                      Right (_,_,x) -> getTagged x

@@ -52,8 +52,6 @@ library
   build-depends:       base         >= 4.6    && <5
                      , binary       >= 0.7.1
                      , bytestring   >= 0.10.4
-                     , data-default >= 0.5
-                     , spoon        >= 0.3
                      , pureMD5      >= 2.1
   -- hs-source-dirs:      
   default-language:    Haskell2010
