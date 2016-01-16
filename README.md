@@ -1,19 +1,11 @@
 tagged-binary
 =============
 
-<a href="http://stackage.org/lts-2/package/tagged-binary">
-    <img src="http://stackage.org/package/tagged-binary/badge/lts-2"
-         alt="tagged-binary on Stackage LTS 2">
-</a>
-<a href="http://stackage.org/lts-3/package/tagged-binary">
-    <img src="http://stackage.org/package/tagged-binary/badge/lts-3"
-         alt="tagged-binary on Stackage LTS 3">
-</a>
-<a href="http://stackage.org/nightly/package/tagged-binary">
-    <img src="http://stackage.org/package/tagged-binary/badge/nightly"
-         alt="tagged-binary on Stackage Nightly">
-</a>
-
+[![tagged-binary on Stackage LTS 2](http://stackage.org/package/tagged-binary/badge/lts-2)](http://stackage.org/lts-2/package/tagged-binary)
+[![tagged-binary on Stackage LTS 3](http://stackage.org/package/tagged-binary/badge/lts-3)](http://stackage.org/lts-3/package/tagged-binary)
+[![tagged-binary on Stackage LTS 4](http://stackage.org/package/tagged-binary/badge/lts-4)](http://stackage.org/lts-4/package/tagged-binary)
+[![tagged-binary on Stackage LTS](http://stackage.org/package/tagged-binary/badge/lts)](http://stackage.org/lts/package/tagged-binary)
+[![tagged-binary on Stackage Nightly](http://stackage.org/package/tagged-binary/badge/nightly)](http://stackage.org/nightly/package/tagged-binary)
 
 Very minimal (Haskell) library providing tools for serializing and decoding data into
 `ByteString` tagged with information about its type, inspired by Cloud Haskell
