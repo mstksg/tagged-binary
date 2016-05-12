@@ -1,5 +1,6 @@
-{-# LANGUAGE DeriveGeneric      #-}
 {-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE DeriveGeneric      #-}
+{-# LANGUAGE NoImplicitPrelude  #-}
 {-# LANGUAGE OverloadedStrings  #-}
 
 -- |
@@ -31,15 +32,15 @@ module Data.Binary.Tagged.Internal (
   , emptyTagFP      -- :: TagFingerprint
   ) where
 
-import Control.Applicative        ((<$>),(<*>))
-import Control.Monad              (guard, forM_)
+import Control.Monad.Compat
 import Data.Binary
 import Data.Binary.Get
 import Data.ByteString.Lazy.Char8 as LC
 import Data.Digest.Pure.MD5
-import Data.Maybe                 (isJust)
+import Data.Maybe
 import Data.Typeable.Internal
 import GHC.Generics
+import Prelude.Compat
 
 
 -- | A data type tupling together data with a 'TagFingerprint',

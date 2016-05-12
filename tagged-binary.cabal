@@ -51,6 +51,7 @@ library
   -- other-modules:       
   -- other-extensions:    
   build-depends:       base         >= 4.6    && <5
+                     , base-compat
                      , binary       >= 0.7.1
                      , bytestring   >= 0.10.4
                      , pureMD5      >= 2.1
