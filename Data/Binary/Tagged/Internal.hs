@@ -32,7 +32,7 @@ module Data.Binary.Tagged.Internal (
   , emptyTagFP      -- :: TagFingerprint
   ) where
 
-import Control.Monad.Compat
+import Control.Monad hiding       (mapM_)
 import Data.Binary
 import Data.Binary.Get
 import Data.ByteString.Lazy.Char8 as LC
