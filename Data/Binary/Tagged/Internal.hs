@@ -38,7 +38,7 @@ import Data.Binary.Get
 import Data.ByteString.Lazy.Char8 as LC
 import Data.Digest.Pure.MD5
 import Data.Maybe
-import Data.Typeable.Internal
+import Data.Typeable
 import GHC.Generics
 import Prelude.Compat
 

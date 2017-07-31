@@ -60,7 +60,7 @@ module Data.Binary.Tagged (
 import Data.Binary
 import Data.Binary.Tagged.Internal
 import Data.ByteString.Lazy
-import Data.Typeable.Internal
+import Data.Typeable
 
 -- | Encode data into a 'ByteString' with its type data tagged.
 --
