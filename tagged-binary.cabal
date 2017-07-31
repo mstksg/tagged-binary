@@ -1,5 +1,5 @@
 name:                tagged-binary
-version:             0.2.0.0
+version:             0.2.0.1
 synopsis:            Provides tools for serializing data tagged with type
                      information.
 description:         Very minimal library providing tools for serializing and

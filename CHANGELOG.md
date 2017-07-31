@@ -1,3 +1,9 @@
+0.2.0.1
+-------
+<https://github.com/mstksg/tagged-binary/releases/tag/v0.2.0.1>
+
+*   Compatibility with *base-4.10* and ghc 8.2.
+
 0.2.0.0
 -------
 <https://github.com/mstksg/tagged-binary/releases/tag/v0.2.0.0>
