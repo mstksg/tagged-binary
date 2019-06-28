@@ -40,6 +40,7 @@ build-type:          Simple
 extra-source-files:  CHANGELOG.md
                    , README.md
 cabal-version:       >=1.10
+tested-with:         GHC >= 8.0
 
 source-repository head
   type:     git
